@@ -13,8 +13,6 @@ class Bookings extends Model
         'ride_id',
         'passenger_id',
         'status',
-        'phone',
-        'name',
         'seats_booked',
         'booked_at'
     ];

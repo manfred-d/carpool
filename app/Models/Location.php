@@ -11,9 +11,8 @@ class Location extends Model
 
     protected $fillable = [
         'name',
-        'ride_id',
-        'start_location',
-        'end_location',
+        'latitude',
+        'longitude',
     ];
 
     public function ride(){

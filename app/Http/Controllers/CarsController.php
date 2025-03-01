@@ -14,12 +14,14 @@ class CarsController extends Controller
         try {
             $cars = Cars::all();
             return response()->json([
+                'success' => true,
                 'message' => 'Cars fetched successfully',
                 'cars' => $cars
             ], 200);
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json([
+                'success' => false,
                 'message' => 'Cars fetch failed'
             ], 500);
         }
@@ -43,18 +45,19 @@ class CarsController extends Controller
                 'capacity' => 'required|integer',
                 'color' => 'required|string|max:255',
                 'user_id' => 'required|integer',
-                'status' => 'required|string|max:255',
             ]);
 
             $car = Cars::create($validatedData);
 
             return response()->json([
+                'success' => true,
                 'message' => 'Car created successfully',
                 'car' => $car
             ], 201);
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json([
+                'success' => false,
                 'message' => 'Car creation failed',
                 'error' => $th
             ], 500);
@@ -73,12 +76,14 @@ class CarsController extends Controller
                 ], 404);
             }
             return response()->json([
+                'success' => true,
                 'message' => 'Car fetched successfully',
                 'car' => $car
             ], 200);
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json([
+                "success" => false,
                 'message' => 'Car fetch failed'
             ], 500);
         }
@@ -97,5 +102,27 @@ class CarsController extends Controller
     public function destroy($id)
     {
         // Logic to delete a post
+        try {
+            $car = Cars::find($id);
+
+            if (!$car) {
+                return response()->json([
+                    'message' => 'Car not found'
+                ], 404);
+            }
+
+            $car->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Car deleted successfully'
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'success' => false,
+                'message' => 'Car deletion failed'
+            ], 500);
+        }
     }
 }
